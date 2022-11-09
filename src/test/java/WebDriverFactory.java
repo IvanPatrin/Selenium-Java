@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.util.Locale;
+
 public class WebDriverFactory {
     private static Logger logger = LogManager.getLogger(WebDriverFactory.class);
 
@@ -20,11 +22,9 @@ public class WebDriverFactory {
                 logger.info("Драйвер для браузера Google Chrome");
                 ChromeOptions options = new ChromeOptions();
                 options.setAcceptInsecureCerts(true);
-                options.addArguments("--start-maximized");
+                options.addArguments("--start-fullscreen");
                 options.addArguments("--incognito");
-
-                options.setCapability("pageLoadStrategy", getPageLoadStrategy(pageLoadStrategy));
-
+                options.setPageLoadStrategy(PageLoadStrategy.valueOf(pageLoadStrategy.toUpperCase(Locale.ROOT)));
                 return new ChromeDriver(options);
             // Создание драйвера для браузера Mozilla Firefox
             case "firefox" :
@@ -32,26 +32,11 @@ public class WebDriverFactory {
                 FirefoxOptions options1 =new FirefoxOptions();
                 options1.addArguments("--kiosk");
                 options1.addArguments("-private");
-                options1.setCapability("pageLoadStrategy", getPageLoadStrategy(pageLoadStrategy));
-                return new FirefoxDriver();
+                options1.setPageLoadStrategy(PageLoadStrategy.valueOf(pageLoadStrategy.toUpperCase(Locale.ROOT)));
+                return new FirefoxDriver(options1);
             // Ответ по умолчанию, если введено некорректное название браузера
             default:
                 throw new RuntimeException("Введено некорректное название браузера");
         }
     }
-
-    // Возврат стратегии загрузки страницы
-    private static PageLoadStrategy getPageLoadStrategy(String pageLoadStrategy){
-        switch (pageLoadStrategy.toLowerCase()){
-            case "normal" :
-                return PageLoadStrategy.NORMAL;
-            case "none" :
-                return PageLoadStrategy.NONE;
-            case "eager" :
-                return  PageLoadStrategy.EAGER;
-            default:
-                throw new RuntimeException("Введено некорректное название стратегии загрузки страницы");
-        }
-    }
-
 }

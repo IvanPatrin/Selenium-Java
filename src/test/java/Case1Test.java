@@ -8,9 +8,9 @@ import org.openqa.selenium.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Case1 {
+public class Case1Test {
     protected static WebDriver driver;
-    private static Logger logger = LogManager.getLogger(Case1.class);
+    private static Logger logger = LogManager.getLogger(Case1Test.class);
 
     // Чтение передаваемого параметра browser (-Dbrowser)
     String env = System.getProperty("browser", "chrome");
@@ -24,7 +24,6 @@ public class Case1 {
         logger.info("env = " + env);
         logger.info("loadStrategy = " + loadStrategy);
         driver = WebDriverFactory.getDriver(env.toLowerCase(),loadStrategy.toLowerCase());
-        driver.manage().window().maximize();
         logger.info("Драйвер стартовал!");
     }
 
@@ -59,26 +58,26 @@ public class Case1 {
         }
 
         // Переход по ссылке Бытовая техника
-        WebElement appliances = driver.findElement(By.xpath("//a[text()='Бытовая техника']"));
-        appliances.click();
+        WebElement linkAppliances = driver.findElement(By.xpath("//a[text()='Бытовая техника']"));
+        linkAppliances.click();
 
         // Проверка отображения текста Бытовая техника
         WebElement textAppliances = driver.findElement(By.className("subcategory__page-title"));
-        Assertions.assertTrue(textAppliances.getText().equals("Бытовая техника"));
+        Assertions.assertEquals("Бытовая техника", textAppliances.getText(), "Текст Бытовая техника не отображается");
         logger.info("Текст- 'Бытовая техника' отображен!");
 
         // Переход по ссылке Техника для кухни
-        WebElement kitchenAppliances = driver.findElement(By.xpath("//span[text()='Техника для кухни']"));
-        kitchenAppliances.click();
+        WebElement linkKitchenAppliances = driver.findElement(By.xpath("//span[text()='Техника для кухни']"));
+        linkKitchenAppliances.click();
 
         // Проверка отображения текста Техника для кухни
         WebElement textKitchenAppliances = driver.findElement(By.className("subcategory__page-title"));
-        Assertions.assertTrue(textKitchenAppliances.getText().equals("Техника для кухни"));
+        Assertions.assertEquals("Техника для кухни",textAppliances.getText(), "Текст техника для кухни не отображается");
         logger.info("Текст 'Техника для кухни' отображен!");
 
         // Проверка на отображения ссылки Собрать свою кухню
         WebElement textMakeKitchen = driver.findElement(By.xpath("//a[text()='Собрать свою кухню']"));
-        Assertions.assertTrue(textMakeKitchen.getText().equals("Собрать свою кухню"));
+        Assertions.assertEquals("Собрать свою кухню", textMakeKitchen.getText(), "Текст Собрать свою кухню не отображается");
         logger.info("Ссылка 'Собрать свою кухню' отображена!");
 
         // Вывод в логи названия всех категорий страницы 'Техника для кухни'
@@ -89,7 +88,7 @@ public class Case1 {
         }
 
         // Проверка, что количество категорий больше 5
-        Assertions.assertTrue(elementsKitchenAppliances.size()>5);
+        Assertions.assertTrue(elementsKitchenAppliances.size()>5, "Количество категорий меньше 5");
         logger.info("Количество категорий больше 5");
 
         // Добавление задержки Thread.sleep, чтобы увидеть результат

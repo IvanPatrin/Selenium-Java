@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-public class Case2 {
+public class Case2Test {
     protected static WebDriver driver;
-    private static Logger logger = LogManager.getLogger(Case2.class);
+    private static Logger logger = LogManager.getLogger(Case2Test.class);
 
     // Чтение передаваемого параметра browser (-Dbrowser)
     String env = System.getProperty("browser", "chrome");
@@ -28,7 +28,6 @@ public class Case2 {
         logger.info("env = " + env);
         logger.info("loadStrategy = " + loadStrategy);
         driver = WebDriverFactory.getDriver(env.toLowerCase(),loadStrategy.toLowerCase());
-        driver.manage().window().maximize();
         logger.info("Драйвер стартовал!");
     }
 
@@ -51,10 +50,10 @@ public class Case2 {
         }
 
         // Перемещение курсора на Бытавую технику
-        WebElement appliances = driver.findElement(By.xpath("//a[text()='Бытовая техника']"));
+        WebElement linkAppliances = driver.findElement(By.xpath("//a[text()='Бытовая техника']"));
         Actions actions = new Actions(driver);
         actions
-                .moveToElement(appliances)
+                .moveToElement(linkAppliances)
                 .perform();
 
         // Добавление задержки Thread.sleep
@@ -65,23 +64,23 @@ public class Case2 {
         }
 
         // Проверка на отображение ссылок (Техника для кухни, Техника для дома, Красота и здоровье)
-        List<WebElement> listAppliances = driver.findElements(By.xpath("//a[@class ='ui-link menu-desktop__first-level']"));
+        List<WebElement> listLinksAppliances = driver.findElements(By.xpath("//a[@class ='ui-link menu-desktop__first-level']"));
         List<String> listAppliancesText = new ArrayList<>();
-        for (WebElement element : listAppliances) {
+        for (WebElement element : listLinksAppliances) {
             listAppliancesText.add(element.getText());
         }
-        List<String> listAppliancesTest = new ArrayList<>();
-        listAppliancesTest.add("Техника для кухни");
-        listAppliancesTest.add("Техника для дома");
-        listAppliancesTest.add("Красота и здоровье");
-        Assertions.assertTrue(listAppliancesText.equals(listAppliancesTest));
+        List<String> listLinksAppliancesTest = new ArrayList<>();
+        listLinksAppliancesTest.add("Техника для кухни");
+        listLinksAppliancesTest.add("Техника для дома");
+        listLinksAppliancesTest.add("Красота и здоровье");
+        Assertions.assertEquals(listAppliancesText, listLinksAppliancesTest, "Ссылки (Техника для кухни, Техника для дома, Красота и здоровье) не отображаются!");
         logger.info("Ссылки (Техника для кухни, Техника для дома, Красота и здоровье) отображаются!");
 
         // Перемещение курсор на Приготовление пищи
-        WebElement cooking = driver.findElement(By.xpath("//a[text() ='Приготовление пищи']"));
+        WebElement linkCooking = driver.findElement(By.xpath("//a[text() ='Приготовление пищи']"));
         Actions actionsCooking= new Actions(driver);
         actionsCooking
-                .moveToElement(cooking)
+                .moveToElement(linkCooking)
                 .perform();
 
         // Добавление задержки Thread.sleep
@@ -93,7 +92,7 @@ public class Case2 {
 
         // Проверка колиечства ссылок в подменю 'Приготовление пищи' больше 5
         List<WebElement> listCooking = driver.findElements(By.xpath("//a[@class ='ui-link menu-desktop__popup-link']"));
-        Assertions.assertTrue(listCooking.size()>5);
+        Assertions.assertTrue(listCooking.size()>5, "Количество ссылок в подменю 'Приготовление пищи' меньше или равно 5'");
         logger.info("Количество ссылок в подменю 'Приготовление пищи' больше 5");
 
         // Перемещаем курсор на плиты и кликаем
@@ -111,8 +110,8 @@ public class Case2 {
         }
 
         // Кликаем на плиты электрические
-        WebElement electricStove = driver.findElement(By.xpath("//span[text()='Плиты электрические']"));
-        electricStove.click();
+        WebElement linkElectricStove = driver.findElement(By.xpath("//span[text()='Плиты электрические']"));
+        linkElectricStove.click();
 
         // Проверка, что в тексте Плиты электрические [количество] товаров количество товаров больше 100
         String stoveCountText = driver.findElement(By.className("products-count")).getText();
