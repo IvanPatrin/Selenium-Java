@@ -24,7 +24,7 @@ public class WebDriverFactory {
                 options.setAcceptInsecureCerts(true);
                 options.addArguments("--start-fullscreen");
                 options.addArguments("--incognito");
-                options.setPageLoadStrategy(PageLoadStrategy.valueOf(pageLoadStrategy.toUpperCase(Locale.ROOT)));
+                options.setPageLoadStrategy(PageLoadStrategy.valueOf(pageLoadStrategy.toUpperCase()));
                 return new ChromeDriver(options);
             // Создание драйвера для браузера Mozilla Firefox
             case "firefox" :
@@ -32,7 +32,7 @@ public class WebDriverFactory {
                 FirefoxOptions options1 =new FirefoxOptions();
                 options1.addArguments("--kiosk");
                 options1.addArguments("-private");
-                options1.setPageLoadStrategy(PageLoadStrategy.valueOf(pageLoadStrategy.toUpperCase(Locale.ROOT)));
+                options1.setPageLoadStrategy(PageLoadStrategy.valueOf(pageLoadStrategy.toUpperCase()));
                 return new FirefoxDriver(options1);
             // Ответ по умолчанию, если введено некорректное название браузера
             default:
