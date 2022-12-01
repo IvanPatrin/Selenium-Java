@@ -109,6 +109,7 @@ public class CaseThreeTest {
                 .perform();
 
         // Выбор объёма оперативной памяти - '32 ГБ'
+        js.executeScript("window.scrollBy(0,600)");
         By ramChecklistXpath = By.xpath("//span[text() = 'Объем оперативной памяти (ГБ)']");
         wait.until(ExpectedConditions.visibilityOfElementLocated(ramChecklistXpath));
         WebElement ramChecklist = eventFiringWebDriver.findElement(ramChecklistXpath);
@@ -128,6 +129,7 @@ public class CaseThreeTest {
                 .perform();
 
         // Нажатие кнопки применить
+        js.executeScript("window.scrollBy(0,600)");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text() = 'Применить']")));
         WebElement applyButton = eventFiringWebDriver.findElement(By.xpath("//button[text() = 'Применить']"));
         wait.until(ExpectedConditions.elementToBeClickable(applyButton));
